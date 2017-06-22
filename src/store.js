@@ -1,26 +1,22 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import { createStore, combineReducers } from 'redux'
+
 import { merge } from 'ramda'
-import logo from './logo.gif'
 
 const store = createStore(
   combineReducers({
-    app
-  }),
-  applyMiddleware(thunk)
+    video: (state = { name: '', link: '', desc: '' }, action) => {
+      switch (action.type) {
+        case 'SET_VIDEO_NAME':
+          return merge(state, { name: action.payload })
+        case 'SET_VIDEO_LINK':
+          return merge(state, { link: action.payload })
+        case 'SET_VIDEO_DESCRIPTION':
+          return merge(state, { desc: action.payload })
+        default:
+          return state
+      }
+    }
+  })
 )
 
 export default store
-
-// reducers
-function app(
-  state = { title: 'JRS Coding School React Starterkit', logo },
-  action
-) {
-  switch (action.type) {
-    case 'SET_APP_TITLE':
-      return merge(state, { title: action.payload })
-    default:
-      return state
-  }
-}
